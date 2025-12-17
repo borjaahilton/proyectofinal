@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Urban Kicks Admin{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800">Panel de Administración</h1>
+    <p class="text-gray-600">Resumen del rendimiento de la tienda.</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <h3 class="text-gray-500 text-sm uppercase font-semibold">Total Productos</h3>
+        <p class="text-4xl font-bold text-indigo-600 mt-2">{{ product_count }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <h3 class="text-gray-500 text-sm uppercase font-semibold">Total Ventas</h3>
+        <p class="text-4xl font-bold text-indigo-600 mt-2">{{ sale_count }}</p>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <h3 class="text-gray-500 text-sm uppercase font-semibold">Ingresos</h3>
+        <p class="text-4xl font-bold text-green-600 mt-2">${{ total_income }}</p>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <a href="{{ url_for('admin.products') }}"
+        class="block p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition border border-gray-100 group">
+        <h3 class="text-xl font-bold text-gray-800 group-hover:text-indigo-600">Gestionar Productos &rarr;</h3>
+        <p class="text-gray-600 mt-2">Agregar, editar o eliminar zapatillas del inventario.</p>
+    </a>
+    <a href="{{ url_for('admin.sales') }}"
+        class="block p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition border border-gray-100 group">
+        <h3 class="text-xl font-bold text-gray-800 group-hover:text-indigo-600">Ver Ventas &rarr;</h3>
+        <p class="text-gray-600 mt-2">Ver historial de órdenes y detalles de clientes.</p>
+    </a>
+</div>
+{% endblock %}

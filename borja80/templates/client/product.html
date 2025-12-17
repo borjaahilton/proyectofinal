@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product['nombre'] }} - Urban Kicks{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="mb-6">
+        <a href="{{ url_for('client.index') }}" class="text-gray-600 hover:text-indigo-600">&larr; Back to Catalog</a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden md:flex">
+        <div class="md:w-1/2 bg-gray-100 flex items-center justify-center p-8">
+            {% if product['imagen'] %}
+            <img src="{{ product['imagen'] }}" alt="{{ product['nombre'] }}"
+                class="max-w-full max-h-[500px] object-contain rounded-lg shadow-sm">
+            {% else %}
+            <span class="text-gray-400 text-xl">Sin Imagen</span>
+            {% endif %}
+        </div>
+        <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+            <p class="text-sm text-indigo-600 font-semibold uppercase tracking-wide mb-2">{{ product['marca'] }}</p>
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ product['nombre'] }}</h1>
+            <p class="text-3xl font-bold text-gray-900 mb-6">${{ product['precio'] }}</p>
+
+            <div class="prose text-gray-600 mb-8">
+                <p>{{ product['descripcion'] }}</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8 text-sm text-gray-600">
+                <div class="border rounded-lg p-3 text-center">
+                    <span class="block font-semibold text-gray-800">Talla</span>
+                    {{ product['talla'] }}
+                </div>
+                <div class="border rounded-lg p-3 text-center">
+                    <span class="block font-semibold text-gray-800">Color</span>
+                    {{ product['color'] }}
+                </div>
+            </div>
+
+            {% if product['stock'] > 0 %}
+            <form action="{{ url_for('client.add_to_cart', id=product['id_producto']) }}" method="post"
+                class="space-y-4">
+                <div class="flex items-center space-x-4">
+                    <label for="quantity" class="font-medium text-gray-700">Cantidad:</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product['stock'] }}"
+                        class="w-20 px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 text-center">
+                    <span class="text-sm text-gray-500">({{ product['stock'] }} disponibles)</span>
+                </div>
+                <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-4 px-6 rounded-xl hover:bg-indigo-700 transition font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Añadir al Carrito
+                </button>
+            </form>
+            {% else %}
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-center">
+                Temporalmente Agotado
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Urban Kicks - Mejores Zapatillas{% endblock %}
+
+{% block content %}
+<div class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
+        <span class="block">Mejora tu estilo con</span>
+        <span class="block text-indigo-600">Urban Kicks</span>
+    </h1>
+    <p class="mt-4 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+        La última colección de zapatillas premium. Estilo, comodidad y exclusividad en un solo lugar.
+    </p>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    {% for product in products %}
+    <div
+        class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+        <div class="h-64 bg-gray-100 flex items-center justify-center overflow-hidden relative">
+            {% if product['imagen'] %}
+            <img src="{{ product['imagen'] }}" alt="{{ product['nombre'] }}" class="w-full h-full object-cover">
+            {% else %}
+            <span class="text-gray-400">Sin Imagen</span>
+            {% endif %}
+            {% if product['stock'] == 0 %}
+            <div class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center">
+                <span class="bg-red-500 text-white px-3 py-1 rounded-full font-bold text-sm">AGOTADO</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ product['nombre'] }}</h3>
+            <p class="text-sm text-gray-500 mb-4">{{ product['marca'] }}</p>
+            <div class="flex items-center justify-between">
+                <span class="text-xl font-bold text-indigo-600">${{ product['precio'] }}</span>
+                <a href="{{ url_for('client.product', id=product['id_producto']) }}"
+                    class="text-indigo-600 hover:text-indigo-800 font-medium text-sm">Ver Detalles &rarr;</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-span-full text-center py-12">
+        <p class="text-gray-500 text-xl">No hay productos disponibles por ahora. ¡Vuelve pronto!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

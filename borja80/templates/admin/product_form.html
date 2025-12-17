@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if product %}Editar{% else %}Nuevo{% endif %} Producto - Admin{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-800">{% if product %}Editar Producto{% else %}Agregar Nuevo Producto{%
+            endif %}
+        </h1>
+        <a href="{{ url_for('admin.products') }}" class="text-gray-600 hover:text-gray-900">&larr; Volver a la Lista</a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <form method="post" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <input type="text" name="nombre" value="{{ product['nombre'] if product else '' }}" required
+                        class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+                    <input type="text" name="marca" value="{{ product['marca'] if product else '' }}"
+                        class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Talla</label>
+                    <input type="text" name="talla" value="{{ product['talla'] if product else '' }}"
+                        class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                    <input type="text" name="color" value="{{ product['color'] if product else '' }}"
+                        class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
+                    <input type="number" step="0.01" name="precio" value="{{ product['precio'] if product else '' }}"
+                        required
+                        class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
+                    <input type="number" name="stock" value="{{ product['stock'] if product else 0 }}" required
+                        class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">URL de Imagen</label>
+                <input type="text" name="imagen" value="{{ product['imagen'] if product else '' }}"
+                    placeholder="https://ejemplo.com/zapa.jpg"
+                    class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                <textarea name="descripcion" rows="4"
+                    class="w-full px-3 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500">{{ product['descripcion'] if product else '' }}</textarea>
+            </div>
+
+            <div class="flex justify-end pt-4 space-x-3">
+                {% if product %}
+                <!-- Delete Button simplistic here -->
+                {% endif %}
+                <button type="submit"
+                    class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition">Guardar
+                    Producto</button>
+            </div>
+        </form>
+
+        {% if product %}
+        <div class="mt-8 pt-6 border-t border-gray-100 text-right">
+            <form action="{{ url_for('admin.delete_product', id=product['id_producto']) }}" method="post"
+                onsubmit="return confirm('¿Estás seguro?');">
+                <button type="submit" class="text-red-500 hover:text-red-700 text-sm font-medium">Eliminar
+                    Producto</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
